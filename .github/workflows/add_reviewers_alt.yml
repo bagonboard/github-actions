@@ -18,7 +18,10 @@ jobs:
           repository: bagonboard/github-actions
           token: ${{ secrets.REPO_ADMIN_TOKEN }}
           path: .github-actions/
-            
+      - name: list 1
+        run: ls -la .github
+      - name: list 2
+        run: ls -la .github-actions
       - uses: kentaro-m/auto-assign-action@v1.2.1
         with:
           configuration-path: ".github-actions/.github/auto_assign.yml"
