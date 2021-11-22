@@ -1,0 +1,30 @@
+name: Sonarqube
+on:
+  workflow_call:
+    secrets:
+      SONARQUBE_HOST:
+        required: true
+      SONARQUBE_TOKEN:
+        required: true
+    inputs:
+      PROJECT_NAME:
+        required: true
+jobs:
+  sonarQubeTrigger:
+    name: SonarQube Trigger
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  
+      - name: Cache lcov file
+        uses: actions/cache@v2
+        with:
+          path: coverage/lcov.info        
+          key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_number }}
+      - name: SonarQube Scan        
+        uses: kitabisa/sonarqube-action@v1.1.0
+        with:
+          host: ${{ secrets.SONARQUBE_HOST }}
+          login: ${{ secrets.SONARQUBE_TOKEN }}
+          projectKey: ${{ inputs.PROJECT_NAME }}
