@@ -9,6 +9,7 @@ on:
     inputs:
       PROJECT_NAME:
         required: true
+        type: string
 jobs:
   sonarQubeTrigger:
     name: SonarQube Trigger
