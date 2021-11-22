@@ -1,0 +1,27 @@
+name: Notify
+
+on:
+  workflow_call:
+    secrets:
+      SLACK_WEBHOOK:
+        required: true
+    inputs:
+      PROJECT_NAME:
+        required: true
+        type: string
+      EMOJI:        
+        type: string
+
+jobs:
+  slack:
+    name: Notify in slack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Workflow Notification
+        uses: Gamesight/slack-workflow-status@master
+        with:
+          repo_token: ${{github.token}}
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK}}
+          channel: '#devops-cicd'
+          name: ${{ inputs.PROJECT_NAME }}
+          icon_emoji: ${{ inputs.EMOJI }}
