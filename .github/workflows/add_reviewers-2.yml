@@ -1,0 +1,19 @@
+name: Add Reviewers
+
+on:
+  workflow_call:
+    secrets:
+    REPO_ADMIN_TOKEN:
+      required: true
+
+jobs:
+  add-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add Reviewers
+      uses: madrapps/add-reviewers@v1
+      with:
+        token: ${{ secrets.REPO_ADMIN_TOKEN }}
+        reviewers: cluny85, mfhevia, ddoice, rriosper
+        re-request-when-approved: true
+        re-request-when-changes-requested: true
