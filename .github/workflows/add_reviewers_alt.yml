@@ -18,12 +18,13 @@ jobs:
           repository: bagonboard/github-actions
           token: ${{ secrets.REPO_ADMIN_TOKEN }}
           path: .github-actions/
+      - name: cp
+        run: cp .github-actions/.github/auto_assign.yml .github/auto_assign.yml
+
       - name: list 1
         run: ls -la .github
       - name: list 2
         run: ls -la .github-actions
-      - name: cp
-        run: cp .github-actions/.github/auto_assign.yml .github/auto_assign.yml
       - uses: kentaro-m/auto-assign-action@v1.2.1
         with:
           configuration-path: ".github/auto_assign.yml"
