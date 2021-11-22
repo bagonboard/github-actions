@@ -1,0 +1,24 @@
+name: Reviewers
+
+on:
+  workflow_call:
+    secrets:
+      REPO_ADMIN_TOKEN:
+        required: true
+jobs:
+  add-reviewers:
+    name: Add reviewers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v2
+      - name: Checkout actions repository
+        uses: actions/checkout@v2
+        with:
+          repository: bagonboard/github-actions
+          token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          path: .github-actions/
+            
+      - uses: kentaro-m/auto-assign-action@v1.2.1
+        with:
+          configuration-path: ".github-actions/.github/auto_assign.yml"
