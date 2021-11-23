@@ -35,14 +35,20 @@ jobs:
         env:
           PROJECT_NAME: ${{ inputs.PROJECT_NAME }}
 
-      - name: Scan code
-        uses: vtex/action-sonarqube@main
+      # - name: Scan code
+      #   uses: vtex/action-sonarqube@main
+      #   with:
+      #     githubToken: ${{ github.token }}
+      #     host: ${{ secrets.SONARQUBE_HOST }}
+      #     token: ${{ secrets.SONARQUBE_TOKEN }}
+      #     projectKey: ${{ inputs.PROJECT_NAME }}
+      #     projectName: ${{ env.PROJECT_NAME_UPPERCASE }}
+
+      - name: SonarQube Scan
+        uses: ddoice/sonarqube-simple@v1.1.0
         with:
-          githubToken: ${{ github.token }}
           host: ${{ secrets.SONARQUBE_HOST }}
-          token: ${{ secrets.SONARQUBE_TOKEN }}
-          projectKey: ${{ inputs.PROJECT_NAME }}
-          projectName: ${{ env.PROJECT_NAME_UPPERCASE }}
+          login: ${{ secrets.SONARQUBE_TOKEN }}
 
       - name: SonarQube Quality Gate check    
         uses: sonarsource/sonarqube-quality-gate-action@master
