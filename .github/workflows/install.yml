@@ -32,13 +32,15 @@ jobs:
 
     - name: "Check custom token"
       id: env_step
+      shell: bash
       run: |
-        if ["$GITHUB_TOKEN" != ""];\
-        then echo Using custom github token;\
-        else echo Using default github token;\
+        if [ "$GITHUB_TOKEN" == "" ]; then
+          echo Using custom github token
+        else
+          echo Using default github token
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}        
 
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
