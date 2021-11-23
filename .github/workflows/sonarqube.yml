@@ -15,14 +15,20 @@ jobs:
     name: SonarQube Trigger
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  
+
       - name: Cache lcov file
         uses: actions/cache@v2
         with:
           path: coverage/lcov.info        
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_number }}
+
+      - name: fix code coverage paths
+        run: |
+          [ -f coverage/lcov.info ] && sed -i 's/\/home\/runner\/work\/backend\/backend\//\/github\/workspace\//g' coverage/lcov.info || echo "Not found"
 
       - name: Set PROJECT_NAME_UPPERCASE env
         run: echo "PROJECT_NAME_UPPERCASE=$(echo $PROJECT_NAME | tr a-z A-Z)" >> $GITHUB_ENV
@@ -36,9 +42,9 @@ jobs:
           host: ${{ secrets.SONARQUBE_HOST }}
           token: ${{ secrets.SONARQUBE_TOKEN }}
           projectKey: ${{ inputs.PROJECT_NAME }}
-          projectName: ${{ inputs.PROJECT_NAME_UPPERCASE }}
+          projectName: ${{ env.PROJECT_NAME_UPPERCASE }}
 
-      - name: SonarQube Quality Gate check
+      - name: SonarQube Quality Gate check    
         uses: sonarsource/sonarqube-quality-gate-action@master
         # Force to fail step after specific time
         timeout-minutes: 5
