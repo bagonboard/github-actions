@@ -45,7 +45,7 @@ jobs:
       #     projectName: ${{ env.PROJECT_NAME_UPPERCASE }}
 
       - name: SonarQube Scan
-        uses: ddoice/sonarqube-simple@v1.1.0
+        uses: ddoice/sonarqube-simple@v1.2.0
         with:
           host: ${{ secrets.SONARQUBE_HOST }}
           login: ${{ secrets.SONARQUBE_TOKEN }}
