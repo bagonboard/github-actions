@@ -4,9 +4,7 @@ on:
   workflow_call:
     secrets:
       NPM_TOKEN_READ:
-        required: false
-      GITHUB_TOKEN:
-        required: false
+        required: true
 
 jobs:
   install:
@@ -34,5 +32,4 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci || npm i
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
-        GITHUB_TOKEN : ${{ secrets.GITHUB_TOKEN  || github.token }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}        
