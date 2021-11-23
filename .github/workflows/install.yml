@@ -30,7 +30,7 @@ jobs:
         node-version: '12.16.1'
         registry-url: 'https://registry.npmjs.org'
 
-    - name: "Check custom token"
+    - name: "Check custom token v2"
       id: env_step
       shell: bash
       run: |
