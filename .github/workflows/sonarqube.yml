@@ -26,12 +26,7 @@ jobs:
       - name: Scan code
         uses: vtex/action-sonarqube@main
         with:
-          githubToken: ${{ github.token }} # https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
-          host: ${{ secrets.SONARQUBE_HOST }} # Variable set in the Github Secrets
-          token: ${{ secrets.SONARQUBE_TOKEN }} # Variable set in the Github Secrets
-      
-      # - name: SonarQube Scan
-      #   uses: sonarsource/sonarqube-scan-action@master
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
+          githubToken: ${{ github.token }}
+          host: ${{ secrets.SONARQUBE_HOST }}
+          token: ${{ secrets.SONARQUBE_TOKEN }}
+          projectKey: ${{ inputs.PROJECT_NAME }}
