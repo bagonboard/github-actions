@@ -5,10 +5,12 @@ on:
     secrets:
       NPM_TOKEN_READ:
         required: false
+      GITHUB_TOKEN:
+        required: false
 
 jobs:
   install:
-    timeout-minutes: 3
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:     
 
@@ -30,6 +32,7 @@ jobs:
 
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+      run: npm ci || npm i
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
+        GITHUB_TOKEN : ${{ secrets.GITHUB_TOKEN  || github.token }}
