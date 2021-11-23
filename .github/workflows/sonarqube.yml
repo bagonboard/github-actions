@@ -36,4 +36,4 @@ jobs:
           host: ${{ secrets.SONARQUBE_HOST }}
           token: ${{ secrets.SONARQUBE_TOKEN }}
           projectKey: ${{ inputs.PROJECT_NAME }}
-          projectName: ${{ inputs.PROJECT_NAME_UPPERCASE }}
+          projectName: ${{ env.PROJECT_NAME_UPPERCASE }}
