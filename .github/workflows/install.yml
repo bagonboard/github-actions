@@ -5,7 +5,7 @@ on:
     secrets:
       NPM_TOKEN_READ:
         required: false
-      GH_TOKEN:
+      GITHUB_TOKEN :
         required: false
 
 jobs:
@@ -35,4 +35,4 @@ jobs:
       run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+        GITHUB_TOKEN : ${{ secrets.GITHUB_TOKEN  || github.token }}
