@@ -2,7 +2,7 @@ name: Make the release
 on:
   workflow_call:
     secrets:
-      REPO_ADMIN_TOKEN:
+      GA_TOKEN:
         required: true
 jobs:
   release:
@@ -26,14 +26,14 @@ jobs:
       - name: Merge master into preproduction
         uses: everlytic/branch-merge@1.1.0
         with:
-          github_token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          github_token: ${{ secrets.GA_TOKEN }}
           source_ref: 'master'
           target_branch: 'preproduction'
           commit_message_template: 'merge changes from master [skip ci]'
       - name: Merge master into develop
         uses: everlytic/branch-merge@1.1.0
         with:
-          github_token: ${{ secrets.REPO_ADMIN_TOKEN }}
+          github_token: ${{ secrets.GA_TOKEN }}
           source_ref: 'master'
           target_branch: 'develop'
           commit_message_template: 'merge changes from master [skip ci]'
