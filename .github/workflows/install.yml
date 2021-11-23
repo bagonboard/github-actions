@@ -5,7 +5,7 @@ on:
     secrets:
       NPM_TOKEN_READ:
         required: false
-      GITHUB_TOKEN :
+      GITHUB_TOKEN:
         required: false
 
 jobs:
@@ -34,13 +34,13 @@ jobs:
       id: env_step
       shell: bash
       run: |
-        if [ "$GITHUB_TOKEN" == "" ]; then
-          echo Using custom github token
+        if [ "$CHECK_TOKEN" == "" ]; then
+          echo Using default github token          
         else
-          echo Using default github token
+          echo Using custom github token $CHECK_TOKEN
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}        
+        CHECK_TOKEN: ${{ secrets.GITHUB_TOKEN}}        
 
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
