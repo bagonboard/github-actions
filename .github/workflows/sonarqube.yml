@@ -23,6 +23,12 @@ jobs:
         with:
           path: coverage/lcov.info        
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_number }}
+
+      - name: Set PROJECT_NAME_UPPERCASE env
+        run: echo "PROJECT_NAME_UPPERCASE=$(echo $PROJECT_NAME | tr a-z A-Z)" >> $GITHUB_ENV
+        env:
+          PROJECT_NAME: ${{ inputs.PROJECT_NAME }}
+
       - name: Scan code
         uses: vtex/action-sonarqube@main
         with:
@@ -30,3 +36,4 @@ jobs:
           host: ${{ secrets.SONARQUBE_HOST }}
           token: ${{ secrets.SONARQUBE_TOKEN }}
           projectKey: ${{ inputs.PROJECT_NAME }}
+          projectName: ${{ inputs.PROJECT_NAME_UPPERCASE }}
