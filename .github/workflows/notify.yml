@@ -3,7 +3,7 @@ name: Notify
 on:
   workflow_call:
     secrets:
-      SLACK_WEBHOOK:
+      SLACK_WEBHOOK_CI:
         required: true
     inputs:
       PROJECT_NAME:
@@ -21,6 +21,6 @@ jobs:
         uses: Gamesight/slack-workflow-status@master
         with:
           repo_token: ${{github.token}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK}}
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_CI}}
           name: ${{ inputs.PROJECT_NAME }}
           icon_emoji: ${{ inputs.EMOJI }}
