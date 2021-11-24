@@ -19,7 +19,7 @@ jobs:
           restore-keys: ${{ runner.os }}-node-
       - uses: actions/setup-node@v2
       
-      - name: Run release server
+      - name: Run release server alt
         run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GA_TOKEN }}
