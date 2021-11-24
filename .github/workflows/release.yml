@@ -24,8 +24,7 @@ jobs:
         env:
           DEBUG: "*"
           NPM_CONFIG_LOGLEVEL: verbose
-          GH_TOKEN: ${{ secrets.GA_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
 
       - name: Merge master into preproduction
         uses: everlytic/branch-merge@1.1.0
