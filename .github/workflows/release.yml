@@ -22,7 +22,7 @@ jobs:
       - name: Run release server
         run: npm run release
         env:
-          DEBUG: semantic-release:*
+          DEBUG: *
           NPM_CONFIG_LOGLEVEL: verbose
           GH_TOKEN: ${{ secrets.GA_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
