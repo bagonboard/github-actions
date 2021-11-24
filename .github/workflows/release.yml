@@ -4,7 +4,21 @@ on:
     secrets:
       GA_TOKEN:
         required: true
+      SENTRY_AUTH_TOKEN:
+        required: false      
+    inputs:
+      SENTRY_ORG:
+        required: false
+        type: string        
+      SENTRY_PROJECT:
+        required: false
+        type: string
+      ENVIRONMENT:
+        required: false
+        type: string
+
 jobs:
+
   release:
     runs-on: ubuntu-latest
     steps:
@@ -18,9 +32,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
       - uses: actions/setup-node@v2
-
-      - name: Fix permissions
-        run: chmod +x release-scripts/create-sentry-release.sh
       
       - name: Run release server
         run: npm run release
@@ -28,9 +39,6 @@ jobs:
           DEBUG: "*"
           NPM_CONFIG_LOGLEVEL: verbose
           GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
-
-      - name: Force exit with error
-        run: exit 1
 
       - name: Merge master into preproduction
         uses: everlytic/branch-merge@1.1.0
@@ -47,3 +55,22 @@ jobs:
           source_ref: 'master'
           target_branch: 'develop'
           commit_message_template: 'merge changes from master [skip ci]'
+
+      - name: Get version from package.json
+        id: package
+        run: |
+          version=`jq -r ".version" package.json`
+          echo "::set-output name=version::$content"          
+
+      - name: Create Sentry release
+        if: ${{ inputs.SENTRY_PROJECT != '' }}
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ inputs.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ inputs.SENTRY_PROJECT }}
+        with:
+          environment: ${{ inputs.ENVIRONMENT }}
+          version: ${{ steps.package.outputs.version }}
+
+
