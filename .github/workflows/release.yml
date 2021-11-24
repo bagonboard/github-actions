@@ -22,7 +22,9 @@ jobs:
       - name: Run release server
         run: npm run release
         env:
-          GH_TOKEN: ${{ secrets.GA_TOKEN }}        
+          GH_TOKEN: ${{ secrets.GA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
+
       - name: Merge master into preproduction
         uses: everlytic/branch-merge@1.1.0
         with:
@@ -30,6 +32,7 @@ jobs:
           source_ref: 'master'
           target_branch: 'preproduction'
           commit_message_template: 'merge changes from master [skip ci]'
+          
       - name: Merge master into develop
         uses: everlytic/branch-merge@1.1.0
         with:
