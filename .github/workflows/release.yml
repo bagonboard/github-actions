@@ -23,7 +23,7 @@ jobs:
         run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GA_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Merge master into preproduction
         uses: everlytic/branch-merge@1.1.0
