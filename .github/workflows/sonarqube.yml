@@ -26,6 +26,15 @@ jobs:
           path: coverage/lcov.info        
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_number }}
 
+      - name: Check lcov file exists
+        run: |
+          if [ ! -f coverage/lcov.info ]
+          then
+            echo ⚠️ lcov file not found
+            echo key:${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_number }}
+            exit 2
+          fi
+
       - name: fix code coverage paths
         run: |
           [ -f coverage/lcov.info ] && sed -i 's/\/home\/runner\/work\/${{ inputs.PROJECT_NAME }}\/${{ inputs.PROJECT_NAME }}\//\/github\/workspace\//g' coverage/lcov.info || echo "Not found"
