@@ -3,11 +3,12 @@ on:
   workflow_call:
     secrets:
       SENTRY_AUTH_TOKEN:
-        required: false      
+        required: true      
     inputs:
       REF:
-        required: true
+        required: false
         type: string
+        default: 'master'
       SENTRY_ORG:
         required: true
         type: string
@@ -31,6 +32,7 @@ jobs:
         id: package
         run: |
           version=`jq -r ".version" package.json`
+          echo $version
           echo "::set-output name=version::$version"          
 
       - name: Create Sentry release
