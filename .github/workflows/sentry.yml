@@ -1,0 +1,46 @@
+name: Notify release to Sentry
+on:
+  workflow_call:
+    secrets:
+      SENTRY_AUTH_TOKEN:
+        required: false      
+    inputs:
+      REF:
+        required: true
+        type: string
+      SENTRY_ORG:
+        required: true
+        type: string
+      SENTRY_PROJECT:
+        required: true
+        type: string
+      ENVIRONMENT:
+        required: true
+        type: string
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ inputs.REF }}
+
+      - name: Get version from package.json
+        id: package
+        run: |
+          version=`jq -r ".version" package.json`
+          echo "::set-output name=version::$version"          
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ inputs.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ inputs.SENTRY_PROJECT }}
+        with:
+          environment: ${{ inputs.ENVIRONMENT }}
+          version: ${{ steps.package.outputs.version }}
+
+

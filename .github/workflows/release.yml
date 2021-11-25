@@ -4,18 +4,6 @@ on:
     secrets:
       GA_TOKEN:
         required: true
-      SENTRY_AUTH_TOKEN:
-        required: false      
-    inputs:
-      SENTRY_ORG:
-        required: false
-        type: string
-      SENTRY_PROJECT:
-        required: false
-        type: string
-      ENVIRONMENT:
-        required: false
-        type: string
 
 jobs:
 
@@ -56,21 +44,5 @@ jobs:
           target_branch: 'develop'
           commit_message_template: 'merge changes from master [skip ci]'
 
-      - name: Get version from package.json
-        id: package
-        run: |
-          version=`jq -r ".version" package.json`
-          echo "::set-output name=version::$version"          
-
-      - name: Create Sentry release
-        if: ${{ inputs.SENTRY_PROJECT != '' }}
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ inputs.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ inputs.SENTRY_PROJECT }}
-        with:
-          environment: ${{ inputs.ENVIRONMENT }}
-          version: ${{ steps.package.outputs.version }}
 
 
