@@ -60,8 +60,7 @@ jobs:
         id: package
         run: |
           version=`jq -r ".version" package.json`
-          echo $version
-          echo "::set-output name=version::$content"          
+          echo "::set-output name=version::$version"          
 
       - name: Create Sentry release
         if: ${{ inputs.SENTRY_PROJECT != '' }}
