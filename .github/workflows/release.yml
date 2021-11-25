@@ -9,7 +9,7 @@ on:
     inputs:
       SENTRY_ORG:
         required: false
-        type: string        
+        type: string
       SENTRY_PROJECT:
         required: false
         type: string
@@ -60,6 +60,7 @@ jobs:
         id: package
         run: |
           version=`jq -r ".version" package.json`
+          echo $version
           echo "::set-output name=version::$content"          
 
       - name: Create Sentry release
