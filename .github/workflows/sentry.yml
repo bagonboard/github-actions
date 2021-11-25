@@ -21,11 +21,13 @@ on:
 
 jobs:
 
-  release:
+  notify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 0
+          clean: false
           ref: ${{ inputs.REF }}
 
       - name: Get version from package.json
@@ -33,7 +35,12 @@ jobs:
         run: |
           version=`jq -r ".version" package.json`
           echo $version
-          echo "::set-output name=version::$version"          
+          echo "::set-output name=version::$version"
+
+      - name: Debug git
+        run: |
+          git log -n  5 | cat
+          git branch | cat
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
@@ -41,8 +48,10 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ inputs.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ inputs.SENTRY_PROJECT }}
+          SENTRY_LOG_LEVEL: debug
         with:
           environment: ${{ inputs.ENVIRONMENT }}
           version: ${{ steps.package.outputs.version }}
+          version_prefix: 'v'
 
 
