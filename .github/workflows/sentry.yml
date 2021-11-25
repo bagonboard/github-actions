@@ -35,8 +35,13 @@ jobs:
         run: |
           version=`jq -r ".version" package.json`
           echo $version
-          echo "::set-output name=version::$version"          
+          echo "::set-output name=version::$version"
 
+      - name: Debug git
+        run: |
+          git log -n  5 | cat
+          git branch | cat
+          
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
