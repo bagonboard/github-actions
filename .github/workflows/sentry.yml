@@ -45,5 +45,6 @@ jobs:
         with:
           environment: ${{ inputs.ENVIRONMENT }}
           version: ${{ steps.package.outputs.version }}
+          version_prefix: 'v'
 
 
