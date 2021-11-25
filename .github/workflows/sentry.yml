@@ -26,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 2
           ref: ${{ inputs.REF }}
 
       - name: Get version from package.json
