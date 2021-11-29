@@ -4,6 +4,15 @@ on:
     secrets:
       GA_TOKEN:
         required: true
+    inputs:
+      DEVELOP:
+        required: false
+        type: boolean
+        default: true
+      PREPRODUCTION:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
 
@@ -29,6 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
 
       - name: Merge master into preproduction
+        if: ${{ inputs.PREPRODUCTION }}  
         uses: everlytic/branch-merge@1.1.0
         with:
           github_token: ${{ secrets.GA_TOKEN }}
@@ -37,6 +47,7 @@ jobs:
           commit_message_template: 'merge changes from master [skip ci]'
           
       - name: Merge master into develop
+        if: ${{ inputs.DEVELOP }}  
         uses: everlytic/branch-merge@1.1.0
         with:
           github_token: ${{ secrets.GA_TOKEN }}
