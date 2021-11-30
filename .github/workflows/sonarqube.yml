@@ -24,14 +24,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: coverage/lcov.info        
-          key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.job }}
+          key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Check lcov file exists
         run: |
           if [ ! -f coverage/lcov.info ]
           then
             echo ⚠️ lcov file not found
-            echo key:${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.job }}
+            echo key:${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
             exit 2
           fi
 
