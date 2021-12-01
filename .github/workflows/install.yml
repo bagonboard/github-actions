@@ -21,7 +21,7 @@ jobs:
           echo ⚠️ package-lock.json file not found
           ls -la
           exit 2
-        fi    
+        fi
 
     - uses: actions/cache@v2
       id: cache
@@ -31,6 +31,11 @@ jobs:
           **/node_modules
         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
         restore-keys: ${{ runner.os }}-node-
+
+    - name: show hashes and files
+      run: |
+        md5sum package-lock.json
+        ls -la node_modules | grep color
 
     - uses: actions/setup-node@v2
       with:
