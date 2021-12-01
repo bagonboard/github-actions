@@ -9,7 +9,12 @@ on:
     inputs:
       PROJECT_NAME:
         required: true
+        type: string            
+      WORKING_DIRECTORY:
+        required: false
         type: string
+        default: .
+
 jobs:
   sonarQubeTrigger:
     name: SonarQube Trigger
@@ -23,10 +28,11 @@ jobs:
       - name: Cache lcov file
         uses: actions/cache@v2
         with:
-          path: coverage/lcov.info        
+          path: ${{ inputs.WORKING_DIRECTORY }}/coverage/lcov.info        
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Check lcov file exists
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
         run: |
           if [ ! -f coverage/lcov.info ]
           then
@@ -36,6 +42,7 @@ jobs:
           fi
 
       - name: fix code coverage paths
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
         run: |
           [ -f coverage/lcov.info ] && sed -i 's/\/home\/runner\/work\/${{ inputs.PROJECT_NAME }}\/${{ inputs.PROJECT_NAME }}\//\/github\/workspace\//g' coverage/lcov.info || echo "Not found"
 
