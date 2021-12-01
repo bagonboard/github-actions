@@ -5,6 +5,11 @@ on:
     secrets:
       NPM_TOKEN_READ:
         required: true
+    inputs:
+      WORKING_DIRECTORY:
+        required: false
+        type: string
+        default: .
 
 jobs:
   install:
@@ -38,6 +43,7 @@ jobs:
 
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}        
