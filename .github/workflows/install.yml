@@ -20,6 +20,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Check package-lock file exists
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: |
         if [ ! -f package-lock.json ]
         then
