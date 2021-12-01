@@ -31,11 +31,6 @@ jobs:
           **/node_modules
         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-    - name: show hashes and files
-      run: |
-        md5sum package-lock.json
-        ls -la node_modules | grep color
-
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
