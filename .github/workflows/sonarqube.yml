@@ -28,9 +28,7 @@ jobs:
       - name: Cache lcov file
         uses: actions/cache@v2
         with:        
-          path: |
-            coverage/lcov.info 
-            **/coverage/lcov.info    
+          path: coverage/lcov.info 
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Check lcov file exists
