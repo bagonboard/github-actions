@@ -36,7 +36,7 @@ jobs:
         if: ${{ inputs.WORKING_DIRECTORY === '.' }}
         uses: actions/cache@v2
         with:
-          path: ${{ inputs.WORKING_DIRECTORY }}/coverage/lcov.info        
+          path: coverage/lcov.info        
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Check lcov file exists
