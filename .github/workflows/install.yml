@@ -44,11 +44,11 @@ jobs:
         node-version: '14'
         registry-url: 'https://registry.npmjs.org'
 
-    - name: Check GA_TOKEN
+    - name: Create npmrc
+      if: {{ secrets.GA_TOKEN != '' }}
       run: |
-        echo $GA_TOKEN | md5sum
-        echo ${#GA_TOKEN}
-        echo _"$GA_TOKEN"_ | rev
+        echo "//npm.pkg.github.com/:_authToken=${GA_TOKEN}" >.npmrc
+        echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
