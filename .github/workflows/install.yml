@@ -53,6 +53,9 @@ jobs:
         then
           echo "//npm.pkg.github.com/:_authToken=$GA_TOKEN" >.npmrc
           echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
+          echo .npmrc created
+        else
+          echo .npmrc NOT created
         fi
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
