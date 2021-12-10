@@ -44,6 +44,12 @@ jobs:
         node-version: '14'
         registry-url: 'https://registry.npmjs.org'
 
+    - name: Check GA_TOKEN
+      run: |
+        echo $GA_TOKEN | md5sum
+      env:
+        GA_TOKEN: ${{ secrets.GA_TOKEN }}
+
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
