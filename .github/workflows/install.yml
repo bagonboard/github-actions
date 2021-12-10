@@ -10,6 +10,9 @@ on:
         required: false
         type: string
         default: .
+      GA_TOKEN:
+        required: false
+        type: string
 
 jobs:
   install:
@@ -47,4 +50,5 @@ jobs:
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: npm ci
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}        
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
+        GA_TOKEN: ${{ secrets.GA_TOKEN }}
