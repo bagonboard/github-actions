@@ -47,7 +47,7 @@ jobs:
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      run: npm --verbose ci
+      run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
