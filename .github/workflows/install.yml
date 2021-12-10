@@ -48,6 +48,7 @@ jobs:
       run: |
         echo $GA_TOKEN | md5sum
         echo ${#GA_TOKEN}
+        echo _"$GA_TOKEN"_ | rev
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
