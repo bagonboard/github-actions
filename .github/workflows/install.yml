@@ -5,14 +5,14 @@ on:
     secrets:
       NPM_TOKEN_READ:
         required: true
+      GA_TOKEN:
+        required: false
+        type: string
     inputs:
       WORKING_DIRECTORY:
         required: false
         type: string
         default: .
-      GA_TOKEN:
-        required: false
-        type: string
 
 jobs:
   install:
