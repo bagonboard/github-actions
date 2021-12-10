@@ -44,12 +44,10 @@ jobs:
         node-version: '14'
         registry-url: 'https://registry.npmjs.org'
 
-    - run: cat .npmrc
-
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      run: npm ci
+      run: npm --verbose ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
