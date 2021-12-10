@@ -45,10 +45,12 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Create npmrc
-      if: secrets.GA_TOKEN != ''
       run: |
-        echo "//npm.pkg.github.com/:_authToken=${GA_TOKEN}" >.npmrc
-        echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
+        if [ ! -z "$GA_TOKEN" ]
+        then
+          echo "//npm.pkg.github.com/:_authToken=$GA_TOKEN" >.npmrc
+          echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
+        fi
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
