@@ -47,6 +47,7 @@ jobs:
     - name: Check GA_TOKEN
       run: |
         echo $GA_TOKEN | md5sum
+        echo ${#GA_TOKEN}
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
