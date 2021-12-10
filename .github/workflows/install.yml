@@ -12,6 +12,9 @@ on:
         required: false
         type: string
         default: .
+      FORCE_INSTALL:
+        required: false
+        type: string
 
 jobs:
   install:
@@ -55,7 +58,7 @@ jobs:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
     - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true' || contains(github.event.head_commit.message, 'skip CACHE')
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != ''
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: npm ci
       env:
