@@ -56,6 +56,8 @@ jobs:
           echo .npmrc created
           echo ${#GA_TOKEN} GA_TOKEN length
           echo $GA_TOKEN | md5sum
+          cat .npmrc
+          ls -la
         else
           echo .npmrc NOT created
         fi
