@@ -7,7 +7,6 @@ on:
         required: true
       GA_TOKEN:
         required: false
-        type: string
     inputs:
       WORKING_DIRECTORY:
         required: false
