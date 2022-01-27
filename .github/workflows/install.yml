@@ -53,11 +53,7 @@ jobs:
         then
           echo "//npm.pkg.github.com/:_authToken=$GA_TOKEN" >.npmrc
           echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
-          echo .npmrc created
-          echo ${#GA_TOKEN} GA_TOKEN length
-          echo $GA_TOKEN | md5sum
-          cat .npmrc
-          ls -la
+          echo .npmrc created ✔️
         else
           echo .npmrc NOT created 🚨
         fi
