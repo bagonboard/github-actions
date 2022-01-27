@@ -59,7 +59,7 @@ jobs:
           cat .npmrc
           ls -la
         else
-          echo .npmrc NOT created
+          echo .npmrc NOT created 🚨
         fi
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
