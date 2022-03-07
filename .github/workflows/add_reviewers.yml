@@ -15,6 +15,6 @@ jobs:
       uses: madrapps/add-reviewers@v1
       with:
         token: ${{ secrets.GA_TOKEN }}
-        reviewers: cluny85,mfhevia,ddoice
+        reviewers: cluny85,mfhevia,ddoice,RoiDopazo
         re-request-when-approved: true
         re-request-when-changes-requested: true
