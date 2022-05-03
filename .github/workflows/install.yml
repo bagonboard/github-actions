@@ -46,6 +46,11 @@ jobs:
       with:
         node-version: '14'
         registry-url: 'https://registry.npmjs.org'
+        
+    - name: Echo versions
+      run: 
+        node -v
+        npm -v
 
     - name: Create npmrc
       run: |
