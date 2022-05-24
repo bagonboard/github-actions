@@ -8,6 +8,9 @@ on:
       GA_TOKEN:
         required: false
     inputs:
+      USE_YARN:
+        required: false
+        type: boolean
       WORKING_DIRECTORY:
         required: false
         type: string
@@ -68,7 +71,14 @@ jobs:
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != ''
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      run: npm ci
+      run: |
+        echo USE_YARN:$USE_YARN
+        if [ ! -z "$USE_YARN" ]
+        then
+          npm ci
+        else
+          yarn install
+        fi      
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
