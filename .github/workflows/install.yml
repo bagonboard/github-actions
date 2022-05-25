@@ -11,6 +11,7 @@ on:
       USE_YARN:
         required: false
         type: boolean
+        default: false
       WORKING_DIRECTORY:
         required: false
         type: string
@@ -29,10 +30,22 @@ jobs:
 
     - name: Check package-lock file exists
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
+      if: ${{ inputs.USE_YARN == false }}
       run: |
         if [ ! -f package-lock.json ]
         then
           echo ⚠️ package-lock.json file not found
+          ls -la
+          exit 2
+        fi
+        
+    - name: Check yarn.lock file exists
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
+      if: ${{ inputs.USE_YARN == true }}
+      run: |
+        if [ ! -f yarn.lock ]
+        then
+          echo ⚠️ yarn.lock file not found
           ls -la
           exit 2
         fi
