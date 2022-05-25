@@ -73,7 +73,7 @@ jobs:
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: |
         echo USE_YARN:$USE_YARN
-        if [ ! -z "$USE_YARN" ]
+        if [ -z "$USE_YARN" ]
         then
           npm ci
         else
