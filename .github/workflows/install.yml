@@ -43,7 +43,7 @@ jobs:
         path: |
           node_modules
           **/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles( inputs.USE_YARN && 'yarn.lock' || 'package-lock.json' ) }}
 
     - uses: actions/setup-node@v2
       with:
@@ -59,11 +59,11 @@ jobs:
       run: |
         if [ ! -z "$GA_TOKEN" ]
         then
-          echo "//npm.pkg.github.com/:_authToken=$GA_TOKEN" >.npmrc
-          echo "@bagonboard:registry=https://npm.pkg.github.com/" >>.npmrc
-          echo .npmrc created ✔️
+          echo "//npm.pkg.github.com/:_authToken=$GA_TOKEN" > ~/.npmrc
+          echo "@bagonboard:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+          echo ~/.npmrc created ✔️
         else
-          echo .npmrc NOT created 🚨
+          echo ~/.npmrc NOT created 🚨
         fi
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
