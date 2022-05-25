@@ -81,17 +81,19 @@ jobs:
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
-    - name: Install Dependencies
-      if: steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != ''
+    - name: Install Dependencies (npm)
+      if: (${{ inputs.USE_YARN == false }}) && (steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != '')
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      run: |
-        echo USE_YARN:$USE_YARN
-        if [ -z "$USE_YARN" ]
-        then
-          npm ci
-        else
-          yarn install
-        fi      
+      run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
+        GA_TOKEN: ${{ secrets.GA_TOKEN }}
+
+
+    - name: Install Dependencies (yarn)
+      if: (${{ inputs.USE_YARN == true }}) && (steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != '')
+      working-directory: ${{ inputs.WORKING_DIRECTORY }}
+      run: yarn install    
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
