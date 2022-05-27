@@ -8,10 +8,6 @@ on:
       GA_TOKEN:
         required: false
     inputs:
-      USE_YARN:
-        required: false
-        type: boolean
-        default: false
       WORKING_DIRECTORY:
         required: false
         type: string
@@ -27,21 +23,9 @@ jobs:
     steps:     
 
     - uses: actions/checkout@v2
-
-    - name: Check package-lock file exists
-      working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      if: ${{ inputs.USE_YARN == false }}
-      run: |
-        if [ ! -f package-lock.json ]
-        then
-          echo ⚠️ package-lock.json file not found
-          ls -la
-          exit 2
-        fi
         
     - name: Check yarn.lock file exists
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      if: ${{ inputs.USE_YARN == true }}
       run: |
         if [ ! -f yarn.lock ]
         then
@@ -56,7 +40,7 @@ jobs:
         path: |
           node_modules
           **/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles( inputs.USE_YARN && 'yarn.lock' || 'package-lock.json' ) }}
+        key: ${{ runner.os }}-node-${{ hashFiles('yarn.lock') }}
 
     - uses: actions/setup-node@v2
       with:
@@ -66,7 +50,7 @@ jobs:
     - name: Echo versions
       run: |
         node -v
-        npm -v
+        yarn -v
 
     - name: Create npmrc
       run: |
@@ -81,17 +65,8 @@ jobs:
       env:
         GA_TOKEN: ${{ secrets.GA_TOKEN }}
 
-    - name: Install Dependencies (npm)
-      if: ${{ inputs.USE_YARN == false && (steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != '') }}
-      working-directory: ${{ inputs.WORKING_DIRECTORY }}
-      run: npm ci
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
-        GA_TOKEN: ${{ secrets.GA_TOKEN }}
-
-
-    - name: Install Dependencies (yarn)
-      if: ${{ inputs.USE_YARN == true && (steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != '') }}
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != ''
       working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: yarn install    
       env:
