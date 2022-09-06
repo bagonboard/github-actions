@@ -8,6 +8,10 @@ on:
       GA_TOKEN:
         required: false
     inputs:
+      NODE_VERSION:
+        required: false
+        type: string
+        default: 14
       WORKING_DIRECTORY:
         required: false
         type: string
@@ -20,7 +24,7 @@ jobs:
   install:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    steps:     
+    steps:
 
     - uses: actions/checkout@v2
 
@@ -44,9 +48,9 @@ jobs:
 
     - uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: ${{ inputs.NODE_VERSION }}
         registry-url: 'https://registry.npmjs.org'
-        
+
     - name: Echo versions
       run: |
         node -v

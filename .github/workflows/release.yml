@@ -5,6 +5,10 @@ on:
       GA_TOKEN:
         required: true
     inputs:
+      NODE_VERSION:
+        required: false
+        type: string
+        default: 14
       DEVELOP:
         required: false
         type: boolean
@@ -28,7 +32,9 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v2
-      
+        with:
+          node-version: ${{ inputs.NODE_VERSION }}
+
       - name: Run release server
         run: npm run release
         env:
@@ -37,16 +43,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GA_TOKEN }}
 
       - name: Merge master into preproduction
-        if: ${{ inputs.PREPRODUCTION }}  
+        if: ${{ inputs.PREPRODUCTION }}
         uses: everlytic/branch-merge@1.1.0
         with:
           github_token: ${{ secrets.GA_TOKEN }}
           source_ref: 'master'
           target_branch: 'preproduction'
           commit_message_template: 'merge changes from master [skip ci]'
-          
+
       - name: Merge master into develop
-        if: ${{ inputs.DEVELOP }}  
+        if: ${{ inputs.DEVELOP }}
         uses: everlytic/branch-merge@1.1.0
         with:
           github_token: ${{ secrets.GA_TOKEN }}
