@@ -1,0 +1,66 @@
+name: Turbo Action
+
+on:
+  workflow_call:
+    secrets:
+      GA_TOKEN:
+        required: true
+    inputs:
+      WORKFLOW:
+        required: true
+        type: string
+      TASK:
+        required: true
+        type: string
+      CACHE_NAME:
+        required: true
+        type: string
+      CACHE_PATH:
+        required: true
+        type: string
+
+jobs:
+  turbo-action:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+
+    - uses: actions/cache@v2
+      id: cache
+      with:
+        path: |
+          node_modules
+          **/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('yarn.lock') }}
+
+    - name: Download TurboRepo cache
+      uses: dawidd6/action-download-artifact@v2
+      continue-on-error: true
+      with:
+        workflow: ${{ inputs.WORKFLOW }}
+        github_token: ${{ secrets.GA_TOKEN }}
+        name: ${{ inputs.CACHE_NAME }}
+        path: ${{ inputs.CACHE_PATH }}
+
+    - run: ${{ inputs.TASK }} --cache-dir=${{ inputs.CACHE_PATH }}
+    
+    - name: Clean turbo cache
+      uses: sergeysova/jq-action@v2
+      with:
+        cmd: |
+          hashes=$(yarn run test --dry-run=json | sed -e '/^Done /d;1,2d' | jq '.tasks | .[].hash' | tr -d '"')
+
+          for hash in ${hashes[@]}; do
+            echo $hash
+            cp -R ${{ inputs.CACHE_PATH }}/*${hash}* ./${{ inputs.CACHE_PATH }}-clean
+          done
+        
+    - name: Upload TurboRepo cache
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.CACHE_NAME }}
+        path: ${{ inputs.CACHE_PATH }}-clean
