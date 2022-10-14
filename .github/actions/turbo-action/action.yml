@@ -7,6 +7,8 @@ inputs:
     required: true
   script:
     required: true
+  token: 
+    required: true
 runs:
   using: "composite"
   steps:
@@ -15,12 +17,13 @@ runs:
       continue-on-error: true
       with:
         workflow: ${{ inputs.workflow }}
-        github_token: ${{ secrets.GA_TOKEN }}
+        github_token: ${{ inputs.token }}
         name: ${{ inputs.name }}
         path: ./cache
 
     # Lint, test and build
     - name: Run turbo script
+      shell: bash
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
       run: |
@@ -28,6 +31,7 @@ runs:
         yarn run $TURBO_SCRIPT --cache-dir=./cache
 
     - name: Clean turbo cache
+      shell: bash
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
       run: |
