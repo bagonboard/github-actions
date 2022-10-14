@@ -1,0 +1,47 @@
+name: 'turbo-action'
+description: 'Execute turbo script with cache-and-clean process'
+inputs:
+  workflow:
+    required: true
+  name:
+    required: true
+  script:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Download TurboRepo cache
+      uses: dawidd6/action-download-artifact@v2
+      continue-on-error: true
+      with:
+        workflow: ${{ inputs.workflow }}
+        github_token: ${{ secrets.GA_TOKEN }}
+        name: ${{ inputs.name }}
+        path: ./cache
+
+    # Lint, test and build
+    - name: Run turbo script
+      env:
+        TURBO_SCRIPT: ${{ inputs.script }}
+      run: |
+        unset CI
+        yarn run $TURBO_SCRIPT --cache-dir=./cache
+
+    - name: Clean turbo cache
+      env:
+        TURBO_SCRIPT: ${{ inputs.script }}
+      run: |
+        mkdir ./cache-clean
+        hashes=$(yarn run $TURBO_SCRIPT --dry-run=json | sed -e '/^Done /d;1,2d' | jq '.tasks | .[].hash' | tr -d '"')
+
+        for hash in ${hashes[@]}; do
+          echo $hash
+          cp -R ./cache/*${hash}* ./cache-clean 2>/dev/null || :
+        done
+
+    - name: Upload TurboRepo cache
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        path: ./cache-clean
+  
