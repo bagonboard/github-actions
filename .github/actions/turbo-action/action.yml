@@ -12,6 +12,13 @@ inputs:
   pre-script:
     required: false
     default: echo "Not pre-script provided"
+  script-block-scalar:
+    required: false
+    type: choice
+    default: |
+    options:
+      - | # Multiline
+      - > # Oneline
 runs:
   using: "composite"
   steps:
@@ -29,7 +36,7 @@ runs:
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
-      run: |
+      run: ${{ inputs.script-block-scalar }}
         $PRE_SCRIPT
         yarn run $TURBO_SCRIPT --cache-dir=./cache
 
