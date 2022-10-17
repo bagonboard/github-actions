@@ -19,17 +19,32 @@ on:
       FORCE_INSTALL:
         required: false
         type: string
+      REPOSITORY:
+        required: false
+        type: string
 
 jobs:
   install:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.WORKING_DIRECTORY }}
     steps:
 
     - uses: actions/checkout@v2
+      name: Checkout current repo
+      if: inputs.REPOSITORY == ''
+
+
+    - uses: actions/checkout@v3
+      if: inputs.REPOSITORY != ''
+      name: Checkout another repo
+      with:
+        repository: ${{ inputs.REPOSITORY }}
+        token: ${{ secrets.GA_TOKEN }}
 
     - name: Check package-lock file exists
-      working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: |
         if [ ! -f package-lock.json ]
         then
@@ -71,7 +86,6 @@ jobs:
 
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true' || inputs.FORCE_INSTALL != ''
-      working-directory: ${{ inputs.WORKING_DIRECTORY }}
       run: npm ci
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_READ }}
