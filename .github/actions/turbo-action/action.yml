@@ -41,10 +41,11 @@ runs:
       run: | 
         echo "Executing TURBO-SCRIPT..."
         echo $SCRIPT_BLOCK_SCALAR
-        echo $TURBO_SCRIPT
         if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
+          echo "Running inline-script"
           $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
         else
+          echo "Running multiline-script"
           $PRE_SCRIPT
           yarn run $TURBO_SCRIPT --cache-dir=./cache
         fi
