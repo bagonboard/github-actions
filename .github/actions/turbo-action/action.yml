@@ -15,10 +15,10 @@ inputs:
   script-block-scalar:
     required: false
     type: choice
-    default: "|"
+    default: |
     options:
-      - "|" # Multiline
-      - ">" # Oneline
+      - | # Multiline
+      - > # Oneline
 runs:
   using: "composite"
   steps:
