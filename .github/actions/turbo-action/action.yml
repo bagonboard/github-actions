@@ -14,8 +14,11 @@ inputs:
     default: echo "Not pre-script provided"
   script-block-scalar:
     required: false
-    type: string
+    type: choice
     default: |
+    options:
+    - |
+    - >
     
 runs:
   using: "composite"
