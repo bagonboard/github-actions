@@ -32,7 +32,7 @@ runs:
         path: ./cache
 
     - name: Run turbo script (inline)
-      if: ${{ inputs.script-block-scalar == '>' }}
+      if: ${{ inputs.script-block-scalar == > }}
       shell: bash
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
@@ -40,7 +40,7 @@ runs:
       run: $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
         
     - name: Run turbo script (multiline)
-      if: ${{ inputs.script-block-scalar == '|' }}
+      if: ${{ inputs.script-block-scalar == | }}
       shell: bash
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
