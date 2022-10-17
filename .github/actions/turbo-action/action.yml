@@ -31,23 +31,31 @@ runs:
         name: ${{ inputs.name }}
         path: ./cache
 
-    - name: Run turbo script (inline)
-      if: "${{ github.event.inputs.script-block-scalar == '>' }}"
+    - name: Run turbo script
       shell: bash
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
-      run: $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
-        
-    - name: Run turbo script (multiline)
-      if: "${{ github.event.inputs.script-block-scalar == '|' }}"
-      shell: bash
-      env:
-        TURBO_SCRIPT: ${{ inputs.script }}
-        PRE_SCRIPT: ${{ inputs.pre-script }}
-      run: |
-        $PRE_SCRIPT
-        yarn run $TURBO_SCRIPT --cache-dir=./cache
+        SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
+      run: | 
+        echo "Executing TURBO-SCRIPT..."
+        echo $SCRIPT_BLOCK_SCALAR
+        if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
+          $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
+        else
+          $PRE_SCRIPT
+          yarn run $TURBO_SCRIPT --cache-dir=./cache
+        fi
+               
+#     - name: Run turbo script (multiline)
+#       if: "${{ github.event.inputs.script-block-scalar == '|' }}"
+#       shell: bash
+#       env:
+#         TURBO_SCRIPT: ${{ inputs.script }}
+#         PRE_SCRIPT: ${{ inputs.pre-script }}
+#       run: |
+#         $PRE_SCRIPT
+#         yarn run $TURBO_SCRIPT --cache-dir=./cache
 
     - name: Clean turbo cache
       shell: bash
