@@ -40,6 +40,7 @@ runs:
       run: | 
         echo "Executing TURBO-SCRIPT..."
         echo $SCRIPT_BLOCK_SCALAR
+        echo $TURBO_SCRIPT
         if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
           $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
         else
