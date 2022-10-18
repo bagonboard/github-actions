@@ -7,11 +7,10 @@ inputs:
     required: true
   script:
     required: true
-  token: 
+  token:
     required: true
   pre-script:
     required: false
-    default: echo "Not pre-script provided"
   script-block-scalar:
     required: false
     type: choice
@@ -19,7 +18,7 @@ inputs:
     options:
     - |
     - >
-    
+
 runs:
   using: "composite"
   steps:
@@ -38,7 +37,7 @@ runs:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
         SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
-      run: | 
+      run: |
         echo "Executing TURBO-SCRIPT..."
         if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
           echo "Running inline-script"
@@ -67,4 +66,4 @@ runs:
       with:
         name: ${{ inputs.name }}
         path: ./cache-clean
-  
+
