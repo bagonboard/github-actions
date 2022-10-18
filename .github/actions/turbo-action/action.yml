@@ -41,7 +41,8 @@ runs:
         echo "Executing TURBO-SCRIPT..."
         if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
           echo "Running inline-script"
-          $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
+          bash -e ./.github/error_trap.sh yarn run $TURBO_SCRIPT --cache-dir=./cache
+          # $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
         else
           echo "Running multiline-script"
           $PRE_SCRIPT
