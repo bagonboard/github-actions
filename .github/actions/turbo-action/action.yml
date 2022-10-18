@@ -37,9 +37,7 @@ runs:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
       shell: bash
-      run: >
-        $PRE_SCRIPT
-        yarn run $TURBO_SCRIPT --cache-dir=./cache
+      run: ${{ inputs.PRE_SCRIPT }} yarn run $TURBO_SCRIPT --cache-dir=./cache
 
     - name: Run turbo script multiline
       if: inputs.script-block-scalar == '|'
