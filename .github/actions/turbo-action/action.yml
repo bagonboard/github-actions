@@ -31,23 +31,23 @@ runs:
         name: ${{ inputs.name }}
         path: ./cache
 
-    - name: Run turbo script
-      shell: bash
+    - name: Run turbo script inline
+      if: inputs.script-block-scalar == '>'
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
-        SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
+      run: >
+        $PRE_SCRIPT
+        yarn run $TURBO_SCRIPT --cache-dir=./cache
+
+    - name: Run turbo script multiline
+      if: inputs.script-block-scalar == '|'
+      env:
+        TURBO_SCRIPT: ${{ inputs.script }}
+        PRE_SCRIPT: ${{ inputs.pre-script }}
       run: |
-        echo "Executing TURBO-SCRIPT..."
-        if [[ $SCRIPT_BLOCK_SCALAR == '>' ]]; then
-          echo "Running inline-script"
-          bash -e ./.github/error_trap.sh yarn run $TURBO_SCRIPT --cache-dir=./cache
-          # $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
-        else
-          echo "Running multiline-script"
-          $PRE_SCRIPT
-          yarn run $TURBO_SCRIPT --cache-dir=./cache
-        fi
+        $PRE_SCRIPT
+        yarn run $TURBO_SCRIPT --cache-dir=./cache
 
     - name: Clean turbo cache
       shell: bash
