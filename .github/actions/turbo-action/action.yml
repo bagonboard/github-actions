@@ -36,6 +36,7 @@ runs:
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
+        SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
       shell: bash
       run: ${{ inputs.PRE_SCRIPT }} yarn run $TURBO_SCRIPT --cache-dir=./cache
 
@@ -45,7 +46,9 @@ runs:
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
+        SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
       run: |
+        echo SCRIPT_BLOCK_SCALAR:$SCRIPT_BLOCK_SCALAR
         $PRE_SCRIPT
         yarn run $TURBO_SCRIPT --cache-dir=./cache
 
