@@ -14,7 +14,7 @@ inputs:
   script-block-scalar:
     required: false
     type: choice
-    default: |
+    default: '|'
     options:
     - |
     - >
