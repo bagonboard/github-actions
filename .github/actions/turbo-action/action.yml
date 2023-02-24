@@ -59,6 +59,7 @@ runs:
       env:
         TURBO_SCRIPT: ${{ inputs.script }}
       run: |
+        rm -rf ./cache-clean
         mkdir ./cache-clean
         hashes=$(yarn run $TURBO_SCRIPT --dry-run=json | sed -e '/^Done /d;1,2d' | jq '.tasks | .[].hash' | tr -d '"')
 
