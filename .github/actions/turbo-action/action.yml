@@ -39,6 +39,7 @@ runs:
         SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
       shell: bash
       run: |
+        export NODE_OPTIONS="--max_old_space_size=4096"
         echo PRE_SCRIPT:$PRE_SCRIPT
         $PRE_SCRIPT yarn run $TURBO_SCRIPT --cache-dir=./cache
 
@@ -50,6 +51,7 @@ runs:
         PRE_SCRIPT: ${{ inputs.pre-script }}
         SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
       run: |
+        export NODE_OPTIONS="--max_old_space_size=4096"
         echo SCRIPT_BLOCK_SCALAR:$SCRIPT_BLOCK_SCALAR
         $PRE_SCRIPT
         yarn run $TURBO_SCRIPT --cache-dir=./cache
