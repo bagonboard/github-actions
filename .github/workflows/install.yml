@@ -32,7 +32,7 @@ jobs:
         working-directory: ${{ inputs.WORKING_DIRECTORY }}
     steps:
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       name: Checkout current repo
       if: inputs.REPOSITORY == ''
 
@@ -53,7 +53,7 @@ jobs:
           exit 2
         fi
 
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       id: cache
       with:
         path: |
@@ -61,7 +61,7 @@ jobs:
           **/node_modules
         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.NODE_VERSION }}
         registry-url: 'https://registry.npmjs.org'
