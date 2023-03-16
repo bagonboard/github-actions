@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0  
 
       - name: Cache lcov file
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:        
           path: ${{ inputs.WORKING_DIRECTORY != '.' && format('{0}/', inputs.WORKING_DIRECTORY) || '' }}coverage/lcov.info
           key: ${{ runner.os }}-${{ inputs.PROJECT_NAME }}-lcov-${{ github.run_id }}-${{ github.run_attempt }}
