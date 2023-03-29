@@ -11,6 +11,10 @@ inputs:
     required: true
   pre-script:
     required: false
+  turbo-force:
+    required: false
+    type: boolean
+    default: false
   script-block-scalar:
     required: false
     type: choice
@@ -50,6 +54,7 @@ runs:
         TURBO_SCRIPT: ${{ inputs.script }}
         PRE_SCRIPT: ${{ inputs.pre-script }}
         SCRIPT_BLOCK_SCALAR: ${{ inputs.script-block-scalar }}
+        TURBO_FORCE: ${{ inputs.turbo-force }}
       run: |
         export NODE_OPTIONS="--max_old_space_size=4096"
         echo SCRIPT_BLOCK_SCALAR:$SCRIPT_BLOCK_SCALAR
